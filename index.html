@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحتي الشخصية | ياسين أحمد</title>
+    <style>
+        /* إعادة تعيين الافتراضيات */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #333;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* الـ Header */
+        header {
+            text-align: center;
+            padding: 80px 20px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.4rem;
+            opacity: 0.9;
+        }
+
+        /* البطاقة الرئيسية */
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            margin: -60px auto 50px;
+            max-width: 800px;
+            position: relative;
+            animation: appear 1s ease-out;
+        }
+
+        @keyframes appear {
+            from { opacity: 0; transform: translateY(50px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 6px solid white;
+            margin-top: -75px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .card-content {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .skill {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .skill:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(102,126,234,0.4);
+        }
+
+        /* الأزرار */
+        .buttons {
+            margin: 30px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 0 10px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* الفوتر */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            opacity: 0.8;
+        }
+
+        /* للشاشات الصغيرة */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            header p { font-size: 1.2rem; }
+            .card img { width: 120px; height: 120px; margin-top: -60px; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>أهلاً وسهلاً!</h1>
+            <p>أنا ياسين أحمد، مطور ويب شغوف بالتصميم والبرمجة</p>
+        </header>
+
+        <div class="card">
+            <div style="text-align:center;">
+                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="صورتي الشخصية">
+            </div>
+            <div class="card-content">
+                <h2>ياسين أحمد</h2>
+                <p>مطور Full-Stack | مصمم واجهات | محب للقهوة ☕</p>
+                
+                <div class="skills">
+                    <span class="skill">HTML</span>
+                    <span class="skill">CSS</span>
+                    <span class="skill">JavaScript</span>
+                    <span class="skill">React</span>
+                    <span class="skill">Node.js</span>
+                    <span class="skill">Python</span>
+                </div>
+
+                <div class="buttons">
+                    <a href="https://wa.me/201273352139?text=هلا" class="btn btn-primary" target="_blank">تواصل معي</a>
+                    <a href="https://youtube.com/@yassenahmed2707?si=QUa2zdF5Y_f4weQG" class="btn btn-secondary" target="_blank">شوف أعمالي</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 ياسين أحمد - كل الحقوق محفوظة</p>
+        </footer>
+    </div>
+
+</body>
+</html>
