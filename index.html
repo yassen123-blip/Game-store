@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You, My Love</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    font-family: 'Poppins', 'Quicksand', sans-serif;
+    background: linear-gradient(180deg, #ff8fb1 0%, #ff6fa0 100%);
+    overflow-x: hidden;
+    color: #4a2536;
+    transition: background 0.4s ease, color 0.4s ease;
+  }
+
+  /* ===================== THEME TOGGLE ===================== */
+  .switch {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 999;
+    display: inline-block;
+    width: 56px;
+    height: 30px;
+  }
+
+  .switch .input__check {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,0.35);
+    backdrop-filter: blur(4px);
+    border-radius: 30px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+    transition: background 0.35s ease;
+  }
+
+  .slider::before {
+    content: "☀️";
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    left: 3px;
+    bottom: 3px;
+    background: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: transform 0.35s ease, background 0.35s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+
+  .input__check:checked + .slider {
+    background: rgba(0,0,0,0.45);
+  }
+
+  .input__check:checked + .slider::before {
+    content: "🌙";
+    transform: translateX(26px);
+    background: #2a1a22;
+  }
+
+  /* ===================== DARK MODE ===================== */
+  body.dark {
+    background: linear-gradient(180deg, #1a0f16 0%, #2a1220 100%);
+    color: #f2d9e4;
+  }
+
+  body.dark .field input,
+  body.dark .password-input {
+    background: #2a1a22;
+    color: #f2d9e4;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  }
+
+  body.dark .gate-btn {
+    background: #2a1a22;
+    color: #ff8fb1;
+  }
+
+  body.dark .hero {
+    background: linear-gradient(180deg, #2c1524 0%, #3a1a2c 60%, #24101c 100%);
+  }
+
+  body.dark .letter {
+    background: #1f1319;
+    color: #f2d9e4;
+  }
+
+  body.dark .letter-card {
+    background: #2a1a22;
+    border: 1px solid #4a2536;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  }
+
+  body.dark .letter-card p {
+    color: #e8c7d6;
+  }
+
+  body.dark .letter-card p.highlight,
+  body.dark .accent-title {
+    color: #ff8fb1 !important;
+  }
+
+  body.dark .accent-underline {
+    background: #ff8fb1 !important;
+  }
+
+  body.dark .memories {
+    background: linear-gradient(180deg, #24101c 0%, #2f1624 100%);
+  }
+
+  body.dark .memory-box {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  body.dark .video-section {
+    background: #1f1319;
+  }
+
+  body.dark .video-frame {
+    background: #2a1a22;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+  }
+
+  body.dark .song-section {
+    background: linear-gradient(180deg, #2f1624 0%, #24101c 100%);
+  }
+
+  body.dark .song-card {
+    background: #2a1a22;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  }
+
+  body.dark .song-note {
+    border-color: #4a2536;
+    color: #ff8fb1;
+  }
+
+  body.dark .final {
+    background: linear-gradient(180deg, #24101c 0%, #170a12 100%);
+  }
+
+  body.dark footer {
+    background: #170a12;
+  }
+
+  body.dark .comments-section {
+    background: #1f1319;
+  }
+
+  body.dark .comments-card {
+    background: #2a1a22;
+    border-color: #4a2536;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  }
+
+  body.dark .comment-input,
+  body.dark .comment-textarea {
+    background: #1f1319;
+    border-color: #4a2536;
+    color: #f2d9e4;
+  }
+
+  body.dark .comment-input:focus,
+  body.dark .comment-textarea:focus {
+    border-color: #ff8fb1;
+  }
+
+  body.dark .comment-item {
+    background: #1f1319;
+    border-color: #4a2536;
+  }
+
+  body.dark .comment-item .comment-body {
+    color: #e8c7d6;
+  }
+
+  body.dark .comments-empty {
+    color: #a56a80;
+  }
+
+  /* ===================== GATES ===================== */
+  .gate {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    text-align: center;
+  }
+
+  .gate.hidden { display: none; }
+
+  .gate-icon {
+    font-size: 2.6rem;
+    margin-bottom: 18px;
+  }
+
+  .gate-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .gate-subtitle {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+
+  .field-row {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .field label {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .field input {
+    width: 110px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: none;
+    font-size: 1.1rem;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #4a2536;
+    outline: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  }
+
+  .password-input {
+    width: 100%;
+    max-width: 340px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    border: none;
+    font-size: 1rem;
+    text-align: center;
+    font-family: 'Poppins', monospace;
+    letter-spacing: 1px;
+    color: #4a2536;
+    outline: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    margin-bottom: 20px;
+  }
+
+  .gate-btn {
+    background: #ffffff;
+    color: #e0447c;
+    border: none;
+    padding: 14px 42px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease;
+  }
+
+  .gate-btn:hover { transform: translateY(-2px); }
+  .gate-btn:active { transform: translateY(0); }
+
+  .gate-error {
+    margin-top: 16px;
+    color: #fff;
+    background: rgba(0,0,0,0.2);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .gate-error.show { opacity: 1; }
+
+  .shake { animation: shake 0.4s ease; }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+  }
+
+  .hint {
+    margin-top: 18px;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.75);
+    font-weight: 400;
+  }
+
+  /* ===================== MAIN SITE ===================== */
+  .site { display: none; }
+  .site.show { display: block; }
+
+  section {
+    padding: 70px 24px;
+    text-align: center;
+  }
+
+  .section-title {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 1.9rem;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .section-underline {
+    width: 46px;
+    height: 3px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.8);
+    margin: 0 auto 34px auto;
+  }
+
+  .accent-title { color: #e0447c; }
+  .accent-underline { background: #e0447c; }
+
+  /* Hero */
+  .hero {
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #ff9dbb 0%, #ff6fa0 60%, #ff5c96 100%);
+    position: relative;
+  }
+
+  .hero-heart {
+    width: 74px;
+    height: 74px;
+    margin-bottom: 22px;
+    animation: heartbeat 2.4s ease-in-out infinite;
+  }
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  .hero h1 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 2.4rem;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.9);
+    max-width: 320px;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  /* Love letter */
+  .letter {
+    background: #fff;
+    color: #5a3346;
+  }
+
+  .letter-card {
+    max-width: 460px;
+    margin: 0 auto;
+    background: #fff8fa;
+    border: 1px solid #ffdce8;
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 12px 30px rgba(224, 68, 124, 0.1);
+  }
+
+  .letter-card p {
+    font-size: 1.05rem;
+    line-height: 2.1;
+    font-weight: 400;
+    color: #6b3d52;
+  }
+
+  .letter-card p.highlight {
+    color: #e0447c;
+    font-weight: 600;
+  }
+
+  /* Memories gallery */
+  .memories {
+    background: linear-gradient(180deg, #ff6fa0 0%, #ff86ac 100%);
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .memory-box {
+    aspect-ratio: 1;
+    background: rgba(255,255,255,0.15);
+    border: 2px dashed rgba(255,255,255,0.5);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.8rem;
+    font-weight: 500;
+    overflow: hidden;
+  }
+
+  .memory-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+  }
+
+  /* Special video */
+  .video-section {
+    background: #fff;
+  }
+
+  .video-frame {
+    max-width: 420px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 22px;
+    padding: 10px;
+    box-shadow: 0 15px 40px rgba(224, 68, 124, 0.18);
+  }
+
+  .video-frame video {
+    width: 100%;
+    border-radius: 14px;
+    display: block;
+    background: #2a1520;
+  }
+
+  /* Favorite song */
+  .song-section {
+    background: linear-gradient(180deg, #ff86ac 0%, #ff5c96 100%);
+  }
+
+  .song-card {
+    max-width: 420px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px 24px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  }
+
+  .song-card audio {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .song-note {
+    border: 1.5px dashed #ffb8cf;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 0.95rem;
+    color: #e0447c;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  /* Final */
+  .final {
+    background: linear-gradient(180deg, #ff5c96 0%, #ff3f85 100%);
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .final-heart {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+  }
+
+  .final h2 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 2.2rem;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .final p {
+    color: rgba(255,255,255,0.9);
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  footer {
+    text-align: center;
+    padding: 22px;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.6);
+    background: #ff3f85;
+  }
+
+  /* Comments */
+  .comments-section {
+    background: #fff;
+  }
+
+  .comments-card {
+    max-width: 420px;
+    margin: 0 auto;
+    background: #fff8fa;
+    border: 1px solid #ffdce8;
+    border-radius: 20px;
+    padding: 30px 24px;
+    box-shadow: 0 12px 30px rgba(224, 68, 124, 0.1);
+  }
+
+  .comment-input,
+  .comment-textarea {
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 12px;
+    border: 1.5px solid #ffdce8;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    color: #4a2536;
+    outline: none;
+    margin-bottom: 12px;
+    background: #fff;
+  }
+
+  .comment-input:focus,
+  .comment-textarea:focus {
+    border-color: #ff8fb1;
+  }
+
+  .comment-textarea {
+    resize: vertical;
+    min-height: 80px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .comments-card .gate-btn {
+    background: #e0447c;
+    color: #fff;
+    padding: 12px 36px;
+    font-size: 0.95rem;
+    width: 100%;
+  }
+
+  .comments-list {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .comment-item {
+    background: #fff;
+    border: 1px solid #ffdce8;
+    border-radius: 14px;
+    padding: 14px 16px;
+  }
+
+  .comment-item .comment-name {
+    font-weight: 600;
+    color: #e0447c;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+  }
+
+  .comment-item .comment-body {
+    font-size: 0.9rem;
+    color: #5a3346;
+    line-height: 1.5;
+  }
+
+  .comments-empty {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #c98aa4;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 420px) {
+    .hero h1 { font-size: 2rem; }
+    .section-title { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ THEME TOGGLE ============ -->
+<label class="switch">
+  <input type="checkbox" class="input__check" id="themeToggle">
+  <span class="slider"></span>
+</label>
+
+<!-- ============ GATE 1: BIRTHDAY ============ -->
+<div class="gate" id="gate1">
+  <div class="gate-icon">💗</div>
+  <div class="gate-title">Enter my birthday<br>to unlock this for you</div>
+  <div class="gate-subtitle">Day &amp; Month</div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="dayInput">Day</label>
+      <input type="number" id="dayInput" placeholder="DD" min="1" max="31">
+    </div>
+    <div class="field">
+      <label for="monthInput">Month</label>
+      <input type="number" id="monthInput" placeholder="MM" min="1" max="12">
+    </div>
+  </div>
+
+  <button class="gate-btn" onclick="checkBirthday()">Unlock</button>
+  <div class="gate-error" id="gate1Error">That's not quite right, try again 💭</div>
+</div>
+
+<!-- ============ GATE 2: PASSWORD (BINARY) ============ -->
+<div class="gate hidden" id="gate2">
+  <div class="gate-icon">🔐</div>
+  <div class="gate-title">One more step...<br>Enter the password</div>
+  <div class="gate-subtitle">Hint: it's "I love you" — in Arabic, in binary</div>
+
+  <input type="text" class="password-input" id="passwordInput" placeholder="Enter binary code">
+  <button class="gate-btn" onclick="checkPassword()">Open</button>
+  <div class="gate-error" id="gate2Error">Not quite — check the code again 🔎</div>
+  <div class="hint">Letters: أ ح ب ك — 8 bits per letter, UTF-8</div>
+</div>
+
+<!-- ============ MAIN SITE ============ -->
+<div class="site" id="site">
+
+  <!-- Hero -->
+  <div class="hero">
+    <svg class="hero-heart" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50 88C50 88 12 63 12 36C12 20 24 10 38 10C45 10 50 14 50 14C50 14 55 10 62 10C76 10 88 20 88 36C88 63 50 88 50 88Z" fill="#ffffff"/>
+    </svg>
+    <h1>For You</h1>
+    <p>A little place I made just to remind you how much you mean to me.</p>
+  </div>
+
+  <!-- Love letter -->
+  <section class="letter">
+    <div class="section-title accent-title">My Love Letter</div>
+    <div class="section-underline accent-underline"></div>
+    <div class="letter-card">
+      <p>You are the light of my eyes, and the light of my heart.</p>
+      <p>My love for you shines like a star in the sky.</p>
+      <p class="highlight">Every day with you feels like a celebration.</p>
+      <p>Every moment away from you, I miss you.</p>
+      <p>You're the moon that lights up my nights,</p>
+      <p>and the sun that keeps me warm through winter.</p>
+      <p>My love, you are the best thing in this world.</p>
+      <p class="highlight">I love you so much.</p>
+    </div>
+  </section>
+
+  <!-- Memories gallery -->
+  <section class="memories">
+    <div class="section-title">Our Beautiful Memories</div>
+    <div class="section-underline"></div>
+    <div class="gallery">
+      <div class="memory-box"><img src="photo1.jpg" alt="Memory 1" style="display:block;"></div>
+      <div class="memory-box"><img src="photo2.jpg" alt="Memory 2" style="display:block;"></div>
+      <div class="memory-box"><img src="photo3.jpg" alt="Memory 3" style="display:block;"></div>
+      <div class="memory-box"><img src="photo4.jpg" alt="Memory 4" style="display:block;"></div>
+    </div>
+  </section>
+
+  <!-- Special video -->
+  <section class="video-section">
+    <div class="section-title accent-title">Special Video</div>
+    <div class="section-underline accent-underline"></div>
+    <div class="video-frame">
+      <video controls poster="video-poster.jpg">
+        <source src="video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </section>
+
+  <!-- Favorite song -->
+  <section class="song-section">
+    <div class="section-title">Our Favorite Song</div>
+    <div class="section-underline"></div>
+    <div class="song-card">
+      <audio controls>
+        <source src="song.mp3" type="audio/mpeg">
+        Your browser does not support the audio tag.
+      </audio>
+      <div class="song-note">Every time I hear this song, I love you a little more.</div>
+    </div>
+  </section>
+
+  <!-- Final -->
+  <div class="final">
+    <svg class="final-heart" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50 88C50 88 12 63 12 36C12 20 24 10 38 10C45 10 50 14 50 14C50 14 55 10 62 10C76 10 88 20 88 36C88 63 50 88 50 88Z" fill="#ffffff"/>
+    </svg>
+    <h2>I Love You</h2>
+    <p>Now and always.</p>
+  </div>
+
+  <!-- Comments -->
+  <section class="comments-section">
+    <div class="section-title accent-title">Leave a Note</div>
+    <div class="section-underline accent-underline"></div>
+    <div class="comments-card">
+      <input type="text" id="commentName" class="comment-input" placeholder="Your name">
+      <textarea id="commentText" class="comment-textarea" placeholder="Write something sweet..."></textarea>
+      <button class="gate-btn" onclick="addComment()">Post</button>
+      <div class="comments-list" id="commentsList"></div>
+    </div>
+  </section>
+
+  <footer>Made with love, just for you 💗</footer>
+</div>
+
+<script>
+  const CORRECT_DAY = 23;
+  const CORRECT_MONTH = 12;
+  // Binary (UTF-8) for the Arabic word "احبك" (I love you), no spaces
+  const CORRECT_PASSWORD_RAW = "1101100010100111110110001010110111011000101010001101100110000011";
+
+  function checkBirthday() {
+    const day = parseInt(document.getElementById('dayInput').value, 10);
+    const month = parseInt(document.getElementById('monthInput').value, 10);
+    const gate1 = document.getElementById('gate1');
+    const errorEl = document.getElementById('gate1Error');
+
+    if (day === CORRECT_DAY && month === CORRECT_MONTH) {
+      gate1.classList.add('hidden');
+      document.getElementById('gate2').classList.remove('hidden');
+    } else {
+      errorEl.classList.add('show');
+      gate1.classList.add('shake');
+      setTimeout(() => gate1.classList.remove('shake'), 400);
+    }
+  }
+
+  function normalizeBinary(str) {
+    return str.replace(/[^01]/g, '');
+  }
+
+  function checkPassword() {
+    const input = document.getElementById('passwordInput').value;
+    const normalized = normalizeBinary(input);
+    const gate2 = document.getElementById('gate2');
+    const errorEl = document.getElementById('gate2Error');
+
+    if (normalized === CORRECT_PASSWORD_RAW) {
+      gate2.classList.add('hidden');
+      document.getElementById('site').classList.add('show');
+      window.scrollTo(0, 0);
+    } else {
+      errorEl.classList.add('show');
+      gate2.classList.add('shake');
+      setTimeout(() => gate2.classList.remove('shake'), 400);
+    }
+  }
+
+  // Theme toggle (dark / light)
+  document.getElementById('themeToggle').addEventListener('change', function() {
+    document.body.classList.toggle('dark', this.checked);
+  });
+
+  // Allow Enter key to submit
+  document.getElementById('monthInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkBirthday();
+  });
+  document.getElementById('dayInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkBirthday();
+  });
+  document.getElementById('passwordInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkPassword();
+  });
+</script>
+
+</body>
+</html>
